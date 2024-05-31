@@ -1,111 +1,76 @@
 <div class="container">
   <div class="row pt-3">
     <div class="col-6">
-      <h4>Student Portal</h4>
+      <h4>Article Portal</h4>
     </div>
     <div class="col-6 text-end">
       <button class="btn btn-outline-success" (click)="openModel()">Add New</button>
     </div>
   </div>
-  @if (studentList.length !== 0) {
   <div class="row">
-    @for (item of studentList; track $index) {
-    <div class="col-3">
+    <div class="col-12">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="searchText">
+        <button class="btn btn-outline-secondary" type="button" (click)="search()">Search</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="ArticleList.length !== 0">
+    <div class="col-3" *ngFor="let item of ArticleList">
       <div class="card">
         <div class="card-header">
           <div class="row">
-            <div class="col-6">
-              {{item.name}}
-            </div>
-            <div class="col-6 text-end">
-              {{item.mobileNo}}
+            <div class="col-12">
+              {{item.title}}
             </div>
           </div>
         </div>
         <div class="card-body">
-          <p> {{item.city}} , {{item.state}} , {{item.pincode}}</p>
-          <p> {{item.address}}</p>
+          <p>{{item.descriptions}}</p>
         </div>
         <div class="card-footer text-center">
           <div class="row">
-            <div class="col-6">
-             <small>{{item.email}}</small> 
-            </div>
-            <div class="col-6">
+            <div class="col-12">
               <button class="btn btn-sm btn-primary" (click)="onEdit(item)">Edit</button>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(item)">Delet</button>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(item)">Delete</button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-    }
   </div>
-  } @else { 
-    <div class="row">
-      <div class="col-12 p-4 text-center">
-        <p>No Record Found. Create New Record</p>
-      </div>
+  <div class="row" *ngIf="ArticleList.length === 0">
+    <div class="col-12 p-4 text-center">
+      <p>No Record Found. Create New Record</p>
     </div>
-  }
-
+  </div>
 </div>
-
 
 <div class="modal" id="myModal" #myModal>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Create New Student</h4>
+        <h4 class="modal-title">Create New Article</h4>
         <button type="button" class="btn-close" (click)="closeModel()"></button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-8">
-            <label for="">Name</label>
-            <input type="text" [(ngModel)]="studentObj.name" class="form-control" placeholder="Name">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <label for="">Mobile No</label>
-            <input type="text" [(ngModel)]="studentObj.mobileNo" class="form-control" placeholder="Mobile">
-          </div>
-          <div class="col-6">
-            <label for="">Email</label>
-            <input type="text" [(ngModel)]="studentObj.email" class="form-control" placeholder="Email">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            <label for="">City</label>
-            <input type="text" [(ngModel)]="studentObj.city" class="form-control" placeholder="City">
-          </div>
-          <div class="col-4">
-            <label for="">State</label>
-            <input type="text" [(ngModel)]="studentObj.state" class="form-control" placeholder="State">
-          </div>
-          <div class="col-4">
-            <label for="">Pin Code</label>
-            <input type="text" [(ngModel)]="studentObj.pincode" class="form-control" placeholder="Pin Code">
+          <div class="col-12">
+            <label for="">Title</label>
+            <input type="text" [(ngModel)]="ArticleObj.title" class="form-control" placeholder="Input title">
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <label for="">Address</label>
-            <textarea rows="3" [(ngModel)]="studentObj.address" class="form-control"></textarea>
+            <label for="">Descriptions</label>
+            <input type="text" [(ngModel)]="ArticleObj.descriptions" class="form-control" placeholder="Input descriptions">
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
-        @if (studentObj.id ==0) {
-          <button type="button" class="btn btn-primary" (click)="saveStudent()">Save Student</button>
-        } @else {
-          <button type="button" class="btn btn-success" (click)="updateStud()">Update Student</button>
-        }
-       
+        <button type="button" class="btn btn-primary" *ngIf="ArticleObj.id === 0" (click)="saveArticle()">Save Article</button>
+        <button type="button" class="btn btn-success" *ngIf="ArticleObj.id !== 0" (click)="updateArticle()">Update Article</button>
       </div>
     </div>
   </div>
